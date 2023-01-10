@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { MathpixMarkdown, MathpixLoader, MathpixLoaderAccessibility } from 'mathpix-markdown-it';
-import {
-  addListenerContextMenuEvents,
-  removeListenerContextMenuEvents,
-} from "mathpix-markdown-it/lib/contex-menu";
+import * as React from "react";
+import { MathpixLoader } from "mathpix-markdown-it/lib/components/mathpix-loader";
+import { MathpixMarkdown } from "mathpix-markdown-it/lib/components/mathpix-markdown";
+// import {
+//   addListenerContextMenuEvents,
+//   removeListenerContextMenuEvents,
+// } from "mathpix-markdown-it/lib/contex-menu";
 import { loadSre } from "mathpix-markdown-it/lib/sre/sre-browser";
 
 const outMath = {
@@ -18,41 +19,41 @@ const outMath = {
 
 let accessibility = {
   assistiveMml: true,
-  sre: loadSre()
+  sre: loadSre(),
 };
-
 
 function App() {
   const [loading, setLoading] = React.useState(true);
 
   /** In order for the math to be accessibility, need to make sure that the sre module is loaded */
   React.useEffect(() => {
-    accessibility.sre.engineReady()
-      .finally(()=>{
-        setLoading(false);
-      })
-    },[]);
-  
-  React.useEffect(() => {
-    addListenerContextMenuEvents();
-    return () => {
-      removeListenerContextMenuEvents();
-    };
+    accessibility.sre.engineReady().finally(() => {
+      setLoading(false);
+    });
   }, []);
-  
+
+  // React.useEffect(() => {
+  //   addListenerContextMenuEvents();
+  //   return () => {
+  //     removeListenerContextMenuEvents();
+  //   };
+  // }, []);
+
   if (loading) {
-    return <div className="App">Loading..</div>
+    return <div className="App">Loading..</div>;
   }
   return (
     <div className="App">
       <MathpixLoader>
-        <MathpixMarkdown text="\\(ax^2 + bx + c = 0\\)"
-                         outMath={outMath}
-                         accessibility={accessibility}
+        <MathpixMarkdown
+          text="\\(ax^2 + bx + c = 0\\)"
+          outMath={outMath}
+          accessibility={accessibility}
         />
-        <MathpixMarkdown text="$x = \frac { - b \pm \sqrt { b ^ { 2 } - 4 a c } } { 2 a }$"
-                         outMath={outMath}
-                         accessibility={accessibility}
+        <MathpixMarkdown
+          text="$x = \frac { - b \pm \sqrt { b ^ { 2 } - 4 a c } } { 2 a }$"
+          outMath={outMath}
+          accessibility={accessibility}
         />
       </MathpixLoader>
     </div>
