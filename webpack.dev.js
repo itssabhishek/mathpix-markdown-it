@@ -1,60 +1,61 @@
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
-
 const config = {
-
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-  }
+  },
 };
 
 const indexConfig = Object.assign({}, config, {
-  entry: [ path.join(__dirname, './src/index.tsx')],
+  entry: [path.join(__dirname, "./src/index.tsx")],
 
-  devtool: 'source-map',
+  devtool: "source-map",
 
   output: {
-    path: path.resolve(__dirname, './es5/'),
+    path: path.resolve(__dirname, "./es5/"),
     filename: `index.js`,
-    libraryTarget: 'commonjs2'
+    libraryTarget: "commonjs2",
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, "src"),
         exclude: /(examples|node_modules|bower_components|bundle|lib)/,
-        loader: 'ts-loader',
+        loader: "ts-loader",
       },
       {
         test: /\.js?$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, "src"),
         exclude: /(examples|node_modules|bower_components|bundle|lib)/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
       },
       {
         test: /\.css$/,
         exclude: /examples|node_modules/,
-        use: [
-          "css-loader"
-        ]
-      }
-    ]
+        use: ["css-loader"],
+      },
+    ],
   },
   plugins: [
-    new CopyPlugin([
-      { from: './src/mathjax/my-BaseMappings.js', to: './lib/mathjax/my-BaseMappings.js' },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "./src/mathjax/my-BaseMappings.ts",
+          to: "./lib/mathjax/my-BaseMappings.js",
+        },
+      ],
+    }),
     new NodePolyfillPlugin({
-      excludeAliases: ["console"]
-    })
+      excludeAliases: ["console"],
+    }),
   ],
   externals: {
-    'react': 'commonjs react'
+    react: "commonjs react",
   },
 });
 
 // Return Array of Configurations
-module.exports = [ indexConfig ];
+module.exports = [indexConfig];

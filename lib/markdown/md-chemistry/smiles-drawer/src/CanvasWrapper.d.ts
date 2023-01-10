@@ -146,7 +146,7 @@ declare class CanvasWrapper {
      * @param {Number} charge The integer indicating the charge.
      * @returns {String} A string representing a charge.
      */
-    getChargeText(charge: any): "" | "-" | "+" | "2+" | "2-";
+    getChargeText(charge: any): "-" | "" | "+" | "2+" | "2-";
     /**
      * Draws a dubug dot at a given coordinate and adds text.
      *
